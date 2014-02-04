@@ -6,6 +6,11 @@ use rsfml::graphics::{RenderWindow, CircleShape, Color};
 
 use std::io;
 
+use controller::ControllerStack;
+
+// I still don't understand why these go BELOW use statements
+pub mod controller;
+
 #[start]
 fn start(argc: int, argv: **u8) -> int {
     native::start(argc, argv, main)
@@ -49,5 +54,20 @@ fn initialize_sfml(x_size: uint, y_size: uint, title: ~str) {
         None => fail!("Cannot create a new Render Window.")
     };
 
-    //TODO Display window
+    let mut stack: ControllerStack = ControllerStack{controllers: ~[]};
+    stack.push(ControllerMessage{message: ~"Hello"});
+    println!("ControllerMessage: { }", stack.peek().game_loop());
+
+    while window.is_open() {
+        loop {
+            match window.poll_event() {
+                event::Closed => window.close(),
+                event::NoEvent => break,
+                _ => {}
+            }
+        }
+
+        window.clear(&Color::new_RGB(0, 200, 200));
+        window.display()
+    }
 }
