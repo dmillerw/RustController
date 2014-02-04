@@ -5,7 +5,7 @@ pub struct ControllerStack {
 
 impl ControllerStack {
 	// Pushes a ownable reference of the Controller on to the stack
-	fn push(&mut self, controller: ~TraitController) {
+	pub fn push(&mut self, controller: ~TraitController) {
 		self.controllers.push(controller);
 	}
 
@@ -15,7 +15,7 @@ impl ControllerStack {
 	// Essentially this method takes an instance of
 	// TraitController and passes its lifetime to
 	// anything returned
-	fn peek<'a>(&'a self) -> &'a ~TraitController {
+	pub fn peek<'a>(&'a self) -> &'a ~TraitController {
 		return &'a self.controllers[self.controllers.len() - 1];
 	}
 }
@@ -32,7 +32,7 @@ impl TraitController for ControllerMessage {
 	fn destruct(&self) {}
 }
 
-trait TraitController {
+pub trait TraitController {
 	fn construct(&self);
 	fn game_loop(&self);
 	fn destruct(&self);

@@ -6,7 +6,7 @@ use rsfml::graphics::{RenderWindow, CircleShape, Color};
 
 use std::io;
 
-use controller::ControllerStack;
+use controller::{ControllerStack, ControllerMessage, TraitController};
 
 // I still don't understand why these go BELOW use statements
 pub mod controller;
@@ -55,8 +55,8 @@ fn initialize_sfml(x_size: uint, y_size: uint, title: ~str) {
     };
 
     let mut stack: ControllerStack = ControllerStack{controllers: ~[]};
-    stack.push(ControllerMessage{message: ~"Hello"});
-    println!("ControllerMessage: { }", stack.peek().game_loop());
+    stack.push(~ControllerMessage{message: ~"Hello"});
+    stack.peek().game_loop();
 
     while window.is_open() {
         loop {
